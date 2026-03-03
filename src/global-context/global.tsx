@@ -11,6 +11,7 @@ export function useGlobalState() {
 	const [isDarkTheme, setIsDarkTheme] = useState(false)
 	const [language, setLanguage] = useState<"en" | "id">()
 	const [searchParams] = useSearchParams();
+	const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
 	useEffect(() => {
 		const langParam = searchParams.get("lang");
@@ -58,6 +59,10 @@ export function useGlobalState() {
 		}
 	}, [])
 
+	function openLogoutDialog() {
+
+	}
+
 	return {
 		isAppLoaded,
 		setIsAppLoaded,
@@ -66,7 +71,10 @@ export function useGlobalState() {
 		isDarkTheme,
 		setIsDarkTheme,
 		language,
-		setLanguage
+		setLanguage,
+		isMobileSidebarOpen,
+		setIsMobileSidebarOpen,
+		openLogoutDialog
 	}
 }
 
