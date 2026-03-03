@@ -1,5 +1,5 @@
 import { getGoogleConfigApi } from "@/api/auth-api";
-import { useGlobal } from "@/global-context/use-global";
+import { useGlobal } from "@/global-context/global";
 import GoogleIcon from "@/icons/GoogleIcon";
 import { getLocalizedTexts } from "@/utils/language";
 import clsx from "clsx";
