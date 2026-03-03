@@ -1,6 +1,6 @@
 import { loginApi } from "@/api/auth-api";
 import LoadingPage from "@/components/LoadingPage";
-import { useGlobal } from "@/global-context/use-global";
+import { useGlobal } from "@/global-context/global";
 import { removeCookie, setCookie } from "@/utils/cookie-helper";
 import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
