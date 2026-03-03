@@ -12,7 +12,13 @@ const localizedTexts = {
 		profile: "My Profile",
 		builtBy: "Built by",
 		github: "GitHub",
+		logoutTitle: "Logout Confirmation",
+		logoutDescription:
+			"Are you sure you want to logout from your account?",
+		logout: "Logout",
+		cancel: "Cancel",
 	},
+
 	id: {
 		welcome: "Selamat datang di CV Insight AI",
 		signIn: "Upload CV kamu dan dapatkan feedback instan dari AI",
@@ -26,12 +32,17 @@ const localizedTexts = {
 		profile: "Profil Saya",
 		builtBy: "Dibuat oleh",
 		github: "GitHub",
+		logoutTitle: "Konfirmasi Logout",
+		logoutDescription:
+			"Apakah kamu yakin ingin keluar dari akun ini?",
+		logout: "Keluar",
+		cancel: "Batal",
 	},
 };
 
 export function getLocalizedTexts(language: "en" | "id" | undefined) {
 	if (language == undefined) {
-		return localizedTexts["en"]
+		return localizedTexts["en"];
 	}
 	return localizedTexts[language];
 }
