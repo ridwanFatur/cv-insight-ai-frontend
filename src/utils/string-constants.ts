@@ -1,0 +1,1 @@
+export const APP_NAME = "CV Insight AI"
