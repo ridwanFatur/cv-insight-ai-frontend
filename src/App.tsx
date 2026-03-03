@@ -1,11 +1,12 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import HomePage from "./pages/home/HomePage"
-import AboutPage from "./pages/about/AboutPage"
-import { useGlobal } from "./global-context/use-global"
 import LoginPage from "./pages/login/LoginPage"
 import MainLayout from "./layouts/MainLayout"
 import GoogleAuthCallback from "./callbacks/GoogleAuthCallback"
 import LoadingPage from "./components/LoadingPage"
+import ProfilePage from "./pages/profile/ProfilePage"
+import UploadedCVPage from "./pages/uploaded-cv/UploadedCVPage"
+import { useGlobal } from "./global-context/global"
 
 function App() {
 	const { isAppLoaded, user } = useGlobal()
@@ -31,7 +32,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<MainLayout />}>
 					<Route path="/" element={<HomePage />} />
-					<Route path="/about" element={<AboutPage />} />
+					<Route path="/profile" element={<ProfilePage />} />
+					<Route path="/uploaded-cv" element={<UploadedCVPage />} />
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Route>
 			</Routes>
