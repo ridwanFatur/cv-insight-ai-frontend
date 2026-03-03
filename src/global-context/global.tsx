@@ -12,6 +12,7 @@ export function useGlobalState() {
 	const [language, setLanguage] = useState<"en" | "id">()
 	const [searchParams] = useSearchParams();
 	const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+	const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
 	useEffect(() => {
 		const langParam = searchParams.get("lang");
@@ -60,7 +61,12 @@ export function useGlobalState() {
 	}, [])
 
 	function openLogoutDialog() {
+		setIsLogoutOpen(true)
+	}
 
+	function handleLogout() {
+		setUser(undefined)
+		removeCookie("token")
 	}
 
 	return {
@@ -74,7 +80,10 @@ export function useGlobalState() {
 		setLanguage,
 		isMobileSidebarOpen,
 		setIsMobileSidebarOpen,
-		openLogoutDialog
+		openLogoutDialog,
+		isLogoutOpen,
+		setIsLogoutOpen,
+		handleLogout
 	}
 }
 

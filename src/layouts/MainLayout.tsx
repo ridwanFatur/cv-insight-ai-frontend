@@ -4,9 +4,10 @@ import { useGlobal } from "@/global-context/global";
 import Header from "./components/Header";
 import MobileSidebar from "./components/MobileSiedbar";
 import Footer from "./components/Footer";
+import LogoutDialog from "@/components/LogoutDialog";
 
 export default function MainLayout() {
-	const { isDarkTheme } = useGlobal();
+	const { isDarkTheme, isLogoutOpen, setIsLogoutOpen, handleLogout } = useGlobal();
 	const theme = getTheme(isDarkTheme);
 
 	return (
@@ -17,6 +18,11 @@ export default function MainLayout() {
 				<Outlet />
 			</main>
 			<Footer />
+			<LogoutDialog
+				isOpen={isLogoutOpen}
+				onCancel={() => setIsLogoutOpen(false)}
+				onLogout={handleLogout}
+			/>
 		</div>
 	);
 }
