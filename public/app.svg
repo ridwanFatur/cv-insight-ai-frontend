@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e1a"/>
+      <stop offset="100%" style="stop-color:#1a2540"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <filter id="g">
+      <feGaussianBlur stdDeviation="0.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- CV document shape -->
+  <rect x="6" y="5" width="13" height="17" rx="2" fill="#1a2d45" stroke="#2a4a6a" stroke-width="0.8"/>
+
+  <!-- CV lines -->
+  <circle cx="10" cy="10" r="2.5" fill="#2a4a6a"/>
+  <rect x="13.5" y="8.5" width="4" height="1.5" rx="0.7" fill="#00d4ff" opacity="0.7"/>
+  <rect x="13.5" y="11" width="3" height="1" rx="0.5" fill="#4a7090" opacity="0.5"/>
+  <line x1="8" y1="14.5" x2="18" y2="14.5" stroke="#1e3a5f" stroke-width="0.6"/>
+  <rect x="8" y="16" width="10" height="1" rx="0.5" fill="#3a5870" opacity="0.5"/>
+  <rect x="8" y="18" width="7" height="1" rx="0.5" fill="#3a5870" opacity="0.4"/>
+
+  <!-- AI spark / score badge overlay -->
+  <circle cx="22" cy="22" r="7" fill="#0a0e1a" stroke="none"/>
+  <!-- Arc ring -->
+  <circle cx="22" cy="22" r="6" fill="none" stroke="#1e2d45" stroke-width="2"/>
+  <circle cx="22" cy="22" r="6" fill="none" stroke="url(#arc)" stroke-width="2"
+    stroke-dasharray="28 37" stroke-dashoffset="9" stroke-linecap="round" filter="url(#g)"/>
+  <!-- Score label -->
+  <text x="22" y="25" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" font-weight="bold" fill="#ffffff">AI</text>
+
+  <!-- Tiny check dot -->
+  <circle cx="6.5" cy="21" r="3" fill="#0d2a1a" stroke="#22c55e" stroke-width="0.8"/>
+  <path d="M5 21 l1.2 1.2 l2.4-2.4" stroke="#22c55e" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+</svg>
