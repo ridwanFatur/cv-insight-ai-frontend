@@ -1,7 +1,7 @@
 import { getUserApi } from "@/api/user-api";
 import type { User } from "@/models/User";
 import { getCookie, removeCookie } from "@/utils/cookie-helper";
-import { createContext, useEffect, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react"
 import { useSearchParams } from "react-router-dom";
 
 export function useGlobalState() {
@@ -9,21 +9,28 @@ export function useGlobalState() {
 	const hasCheckedAuth = useRef(false);
 	const [user, setUser] = useState<User>()
 	const [isDarkTheme, setIsDarkTheme] = useState(false)
-	const [language, setLanguage] = useState<"en" | "id">("en")
+	const [language, setLanguage] = useState<"en" | "id">()
 	const [searchParams] = useSearchParams();
 
 	useEffect(() => {
 		const langParam = searchParams.get("lang");
 		if (langParam === "en" || langParam === "id") {
 			setLanguage(langParam);
-			localStorage.setItem("language", langParam);
 		} else {
 			const storedLang = localStorage.getItem("language");
 			if (storedLang === "en" || storedLang === "id") {
 				setLanguage(storedLang);
+			} else {
+				setLanguage("en")
 			}
 		}
 	}, [searchParams]);
+
+	useEffect(() => {
+		if (language != undefined) {
+			localStorage.setItem("language", language);
+		}
+	}, [language])
 
 	async function checkAuth() {
 		const token = getCookie("token");
@@ -68,3 +75,15 @@ type GlobalStateType = ReturnType<typeof useGlobalState>
 export const GlobalContext: React.Context<GlobalStateType> = createContext(
 	{} as GlobalStateType,
 )
+
+export function useGlobal() {
+	const context = useContext(GlobalContext)
+	if (!context) throw new Error('useGlobal must be used inside GlobalProvider')
+
+	return context
+}
+
+export default function GlobalProvider({ children }: { children: ReactNode }) {
+	return <GlobalContext.Provider value={useGlobalState()}>{children}</GlobalContext.Provider>
+}
+
