@@ -22,3 +22,27 @@ export const getCvFeedback = async ({
 
 	return response.data;
 };
+
+export const uploadCv = async ({
+	file,
+}: {
+	file: File
+}): Promise<{
+	cv_feedback: CVFeedback
+	remaining_tokens: number
+}> => {
+	const formData = new FormData()
+	formData.append("file", file)
+
+	const response = await axiosClient.post(
+		`${ENDPOINT.cvFeedback}/upload`,
+		formData,
+		{
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		}
+	)
+
+	return response.data
+}

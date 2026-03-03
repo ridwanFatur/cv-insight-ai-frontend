@@ -3,7 +3,7 @@ import { getCookie } from './cookie-helper';
 
 const axiosClient = axios.create({
 	baseURL: import.meta.env.VITE_BACKEND_API_URL ?? 'http://localhost:8000',
-	timeout: 10000,
+	// timeout: 10000,
 	headers: {
 		'Content-Type': 'application/json',
 	},
