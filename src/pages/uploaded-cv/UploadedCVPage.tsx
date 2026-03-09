@@ -1,4 +1,7 @@
 import UploadedCVPageProvider, { useUploadedCVPage } from "./uploaded-cv-page-context"
+import { getTheme } from "@/utils/theme"
+import { getLocalizedTexts } from "@/utils/language"
+import { useGlobal } from "@/global-context/global"
 
 export default function UploadedCVPage() {
 	return <UploadedCVPageProvider>
@@ -14,38 +17,41 @@ function _UploadedCVPage() {
 		loading,
 		setPage,
 	} = useUploadedCVPage()
+	const { isDarkTheme, language } = useGlobal()
+	const theme = getTheme(isDarkTheme)
+	const captions = getLocalizedTexts(language)
 
 	return (
-		<div className="w-full h-full p-6">
-			<h1 className="text-2xl font-bold mb-6">Uploaded CV List</h1>
+		<div className={`w-full h-full p-6 ${theme.textPrimary}`}>
+			<h1 className="text-2xl font-bold mb-6">{captions.uploadedCvTitle}</h1>
 
-			{loading && <p>Loading...</p>}
+			{loading && <p>{captions.uploadedCvLoading}</p>}
 
 			{!loading && data.length === 0 && (
-				<p>No CV uploaded yet.</p>
+				<p>{captions.uploadedCvNoData}</p>
 			)}
 
 			<div className="space-y-4">
 				{data.map((cv) => (
 					<div
 						key={cv.id}
-						className="p-4 border rounded-lg shadow-sm bg-white"
+						className={`${theme.cardBg} p-4 border ${theme.cardBorder} rounded-lg shadow-sm`}
 					>
-						<p className="text-sm text-gray-500">
-							Uploaded at: {new Date(cv.created_at).toLocaleString()}
+						<p className={`${theme.subtextColor} text-sm`}>
+							{captions.uploadedCvUploadedAt} {new Date(cv.created_at).toLocaleString()}
 						</p>
 
 						<a
 							href={cv.file_link}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-blue-500 underline text-sm"
+							className={`${theme.link} underline text-sm`}
 						>
-							View File
+							{captions.viewFile}
 						</a>
 
 						<div className="mt-2">
-							<p className="text-sm font-semibold">Feedback:</p>
+							<p className="text-sm font-semibold">{captions.uploadedCvFeedbackLabel}</p>
 							<p className="text-sm whitespace-pre-wrap">
 								{cv.feedback}
 							</p>
@@ -62,11 +68,11 @@ function _UploadedCVPage() {
 						onClick={() => setPage(page - 1)}
 						className="px-3 py-1 border rounded disabled:opacity-50"
 					>
-						Prev
+						{captions.paginationPrev}
 					</button>
 
 					<span>
-						Page {page} of {totalPages}
+						{captions.paginationPageOf.replace("{{page}}", String(page)).replace("{{total}}", String(totalPages))}
 					</span>
 
 					<button
@@ -74,7 +80,7 @@ function _UploadedCVPage() {
 						onClick={() => setPage(page + 1)}
 						className="px-3 py-1 border rounded disabled:opacity-50"
 					>
-						Next
+						{captions.paginationNext}
 					</button>
 				</div>
 			)}

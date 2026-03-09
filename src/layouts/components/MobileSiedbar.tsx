@@ -18,7 +18,7 @@ export default function MobileSidebar() {
 			? "text-indigo-500"
 			: isDarkTheme
 				? "text-white/60 hover:text-white"
-				: "text-gray-600 hover:text-gray-900"
+				: `${theme.textSecondary} hover:${theme.textPrimary}`
 		}`;
 
 	return <div
@@ -71,21 +71,21 @@ export default function MobileSidebar() {
 				onClick={toggleLanguage}
 				className={`cursor-pointer text-left text-sm ${theme.headingColor}`}
 			>
-				🌐 {language === "id" ? "Ganti ke Bahasa Inggris" : "Switch to Bahasa"}
+				🌐 {language === "id" ? captions.switchToEnglish : captions.switchToBahasa}
 			</button>
 
 			<button
 				onClick={toggleTheme}
 				className={`cursor-pointer text-left text-sm ${theme.headingColor}`}
 			>
-				{isDarkTheme ? "🌙 Dark Mode" : "☀ Light Mode"}
+				{isDarkTheme ? `🌙 ${captions.darkMode}` : `☀ ${captions.lightMode}`}
 			</button>
 
 			<button
 				onClick={openLogoutDialog}
 				className="cursor-pointer text-left text-sm text-red-500 hover:opacity-80 transition"
 			>
-				🚪Logout
+				🚪{captions.logout}
 			</button>
 		</div>
 	</div>

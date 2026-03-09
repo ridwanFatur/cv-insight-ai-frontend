@@ -29,7 +29,7 @@ export default function LoginPage() {
 					onClick={toggleTheme}
 					className={`cursor-pointer px-3 py-1.5 text-xs rounded-full border transition ${theme.cardBorder} ${theme.cardBg} ${theme.headingColor} hover:scale-105`}
 				>
-					{isDarkTheme ? "🌙 Dark" : "☀ Light"}
+					{isDarkTheme ? `🌙 ${captions.darkMode}` : `☀ ${captions.lightMode}`}
 				</button>
 			</div>
 

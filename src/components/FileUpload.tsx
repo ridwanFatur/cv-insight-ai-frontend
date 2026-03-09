@@ -1,10 +1,17 @@
 import { useRef, useState } from "react"
+import { getLocalizedTexts } from "@/utils/language"
+import { getTheme } from "@/utils/theme"
+import { useGlobal } from "@/global-context/global"
 
 type FileUploadProps = {
 	onAttachFile?: (file: File) => void
 }
 
 export default function FileUpload({ onAttachFile }: FileUploadProps) {
+	const { isDarkTheme, language } = useGlobal()
+	const theme = getTheme(isDarkTheme)
+	const captions = getLocalizedTexts(language)
+
 	const inputRef = useRef<HTMLInputElement | null>(null)
 	const [file, setFile] = useState<File | null>(null)
 	const [isDragging, setIsDragging] = useState(false)
@@ -12,7 +19,7 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 
 	const handleFile = (selectedFile: File) => {
 		if (selectedFile.type !== "application/pdf") {
-			setError("Only PDF files are allowed.")
+			setError(captions.fileUploadOnlyPdf)
 			return
 		}
 
@@ -58,27 +65,27 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 					onDragLeave={() => setIsDragging(false)}
 					onDrop={handleDrop}
 					className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-xl cursor-pointer transition
-            ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"}
+            ${isDragging ? theme.dragBorder + " " + theme.dragBg : theme.cardBorder}
           `}
 				>
-					<p className="text-gray-600 font-medium">
-						Drag & drop your PDF here
+					<p className={`${theme.textPrimary} font-medium`}>
+						{captions.fileUploadDrag}
 					</p>
-					<p className="text-sm text-gray-400 mt-1">
-						or click to browse (PDF only)
+					<p className={`${theme.textSecondary} text-sm mt-1`}>
+						{captions.fileUploadBrowse}
 					</p>
 				</div>
 			) : (
-				<div className="flex items-center justify-between p-4 border rounded-xl bg-gray-50">
+				<div className={`flex items-center justify-between p-4 border rounded-xl ${theme.fileCardBg} ${theme.fileCardBorder}`}>
 					<div className="flex items-center gap-3">
 						<div className="p-2 bg-red-100 text-red-600 rounded-lg">
-							PDF
+							{captions.fileUploadLabel}
 						</div>
 						<div>
-							<p className="text-sm font-medium text-gray-800">
+							<p className={`${theme.fileNameText} text-sm font-medium`}>
 								{file.name}
 							</p>
-							<p className="text-xs text-gray-400">
+							<p className={`${theme.fileSizeText} text-xs`}>
 								{(file.size / 1024 / 1024).toFixed(2)} MB
 							</p>
 						</div>
@@ -87,15 +94,15 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 					<button
 						type="button"
 						onClick={removeFile}
-						className="text-sm text-red-500 hover:text-red-600 font-medium"
+						className={`${theme.textSecondary} text-sm hover:opacity-80 font-medium`}
 					>
-						Remove
+						{captions.fileUploadRemove}
 					</button>
 				</div>
 			)}
 
 			{error && (
-				<p className="text-sm text-red-500 mt-2">{error}</p>
+				<p className={`${theme.errorText} text-sm mt-2`}>{error}</p>
 			)}
 
 			<input
