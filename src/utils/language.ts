@@ -17,6 +17,41 @@ const localizedTexts = {
 			"Are you sure you want to logout from your account?",
 		logout: "Logout",
 		cancel: "Cancel",
+
+		fileUploadDrag: "Drag & drop your PDF here",
+		fileUploadBrowse: "or click to browse (PDF only)",
+		fileUploadOnlyPdf: "Only PDF files are allowed.",
+		fileUploadLabel: "PDF",
+		fileUploadRemove: "Remove",
+
+		homeLoadingTokens: "Loading your tokens...",
+		homeAvailableTokens: "Available Tokens",
+		homeProcessing: "Processing...",
+		homeUploadReview: "Upload & Review",
+		homeCvReviewResult: "CV Review Result",
+		viewFile: "View File",
+		homeReviewedAt: "Reviewed at",
+
+		profileTitle: "Profile Page",
+		profileLoading: "Loading...",
+		profileName: "Name:",
+		profileEmail: "Email:",
+		profileTotalTokens: "Total Tokens:",
+
+		uploadedCvTitle: "Uploaded CV List",
+		uploadedCvLoading: "Loading...",
+		uploadedCvNoData: "No CV uploaded yet.",
+		uploadedCvUploadedAt: "Uploaded at:",
+		uploadedCvFeedbackLabel: "Feedback:",
+
+		paginationPrev: "Prev",
+		paginationNext: "Next",
+		paginationPageOf: "Page {{page}} of {{total}}",
+
+		darkMode: "Dark",
+		lightMode: "Light",
+		switchToEnglish: "Switch to English",
+		switchToBahasa: "Ganti ke Bahasa",
 	},
 
 	id: {
@@ -37,6 +72,41 @@ const localizedTexts = {
 			"Apakah kamu yakin ingin keluar dari akun ini?",
 		logout: "Keluar",
 		cancel: "Batal",
+
+		fileUploadDrag: "Tarik & jatuhkan PDF kamu di sini",
+		fileUploadBrowse: "atau klik untuk mencari (hanya PDF)",
+		fileUploadOnlyPdf: "Hanya file PDF yang diperbolehkan.",
+		fileUploadLabel: "PDF",
+		fileUploadRemove: "Hapus",
+
+		homeLoadingTokens: "Memuat token kamu...",
+		homeAvailableTokens: "Token Tersedia",
+		homeProcessing: "Memproses...",
+		homeUploadReview: "Unggah & Tinjau",
+		homeCvReviewResult: "Hasil Tinjauan CV",
+		viewFile: "Lihat Berkas",
+		homeReviewedAt: "Ditinjau pada",
+
+		profileTitle: "Halaman Profil",
+		profileLoading: "Memuat...",
+		profileName: "Nama:",
+		profileEmail: "Email:",
+		profileTotalTokens: "Total Token:",
+
+		uploadedCvTitle: "Daftar CV Terunggah",
+		uploadedCvLoading: "Memuat...",
+		uploadedCvNoData: "Belum ada CV yang terunggah.",
+		uploadedCvUploadedAt: "Diunggah pada:",
+		uploadedCvFeedbackLabel: "Umpan Balik:",
+
+		paginationPrev: "Sebelumnya",
+		paginationNext: "Berikutnya",
+		paginationPageOf: "Halaman {{page}} dari {{total}}",
+
+		darkMode: "Gelap",
+		lightMode: "Terang",
+		switchToEnglish: "Switch to English",
+		switchToBahasa: "Ganti ke Bahasa",
 	},
 };
 
