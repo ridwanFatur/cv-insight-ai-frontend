@@ -71,7 +71,7 @@ export default function MobileSidebar() {
 				onClick={toggleLanguage}
 				className={`cursor-pointer text-left text-sm ${theme.headingColor}`}
 			>
-				🌐 {language === "id" ? "Switch to English" : "Ganti ke Bahasa"}
+				🌐 {language === "id" ? "Ganti ke Bahasa Inggris" : "Switch to Bahasa"}
 			</button>
 
 			<button
