@@ -75,8 +75,8 @@ function _UploadedCVPage() {
 									className={`
 										text-xs px-2 py-1 rounded-full
 										${isFinished
-											? "bg-green-500/20 text-green-400"
-											: "bg-yellow-500/20 text-yellow-400"}
+											? "bg-blue-500/20 text-blue-400"
+											: "bg-gray-500/20 text-gray-400"}
 									`}
 								>
 									{isFinished ? "Finished" : "Processing"}
