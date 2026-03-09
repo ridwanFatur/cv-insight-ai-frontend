@@ -64,23 +64,22 @@ function _UploadedCVPage() {
 
 							{/* Header */}
 							<div className="flex items-center justify-between">
-
 								<p className={`text-sm ${theme.subtextColor}`}>
-									{captions.uploadedCvUploadedAt}{" "}
-									{new Date(cv.created_at).toLocaleString()}
+									{isFinished ? "Finished at" : captions.uploadedCvUploadedAt}{" "}
+									{new Date(isFinished ? cv.updated_at : cv.created_at).toLocaleString()}
 								</p>
 
 								{/* Status */}
-								<span
-									className={`
-										text-xs px-2 py-1 rounded-full
-										${isFinished
-											? "bg-blue-500/20 text-blue-400"
-											: "bg-gray-500/20 text-gray-400"}
-									`}
-								>
-									{isFinished ? "Finished" : "Processing"}
-								</span>
+								{isFinished ? (
+									<span className="text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-400">
+										Finished
+									</span>
+								) : (
+									<span className="flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-gray-500/20 text-gray-400">
+										<span className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></span>
+										Processing
+									</span>
+								)}
 
 							</div>
 
