@@ -68,6 +68,7 @@ function _HomePage() {
 			{/* Upload Area */}
 			<div className="space-y-4">
 				<FileUpload
+					uploading={uploading}
 					onAttachFile={(selectedFile) => {
 						setFile(selectedFile)
 					}}

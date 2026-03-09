@@ -5,9 +5,10 @@ import { useGlobal } from "@/global-context/global"
 
 type FileUploadProps = {
 	onAttachFile?: (file: File) => void
+	uploading?: boolean
 }
 
-export default function FileUpload({ onAttachFile }: FileUploadProps) {
+export default function FileUpload({ onAttachFile, uploading }: FileUploadProps) {
 	const { isDarkTheme, language } = useGlobal()
 	const theme = getTheme(isDarkTheme)
 	const captions = getLocalizedTexts(language)
@@ -47,6 +48,8 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 	}
 
 	const removeFile = () => {
+		if (uploading) return
+
 		setFile(null)
 		setError(null)
 
@@ -112,6 +115,7 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 					<button
 						type="button"
 						onClick={removeFile}
+						disabled={uploading}
 						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80`}
 					>
 						{captions.fileUploadRemove}
