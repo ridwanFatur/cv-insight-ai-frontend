@@ -116,7 +116,8 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 						type="button"
 						onClick={removeFile}
 						disabled={uploading}
-						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80`}
+						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80 ${uploading ? "cursor-not-allowed" : "cursor-pointer"
+							}`}
 					>
 						{captions.fileUploadRemove}
 					</button>
