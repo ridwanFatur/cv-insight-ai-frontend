@@ -32,7 +32,11 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
 	(response) => response,
 	(error) => {
-		return Promise.reject(error);
+		if (error.response?.status === 401) {
+			window.location.href = "/login"
+		}
+
+		return Promise.reject(error)
 	}
 );
 export default axiosClient
