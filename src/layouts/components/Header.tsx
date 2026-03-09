@@ -19,7 +19,7 @@ export default function Header() {
 			? "text-indigo-500"
 			: isDarkTheme
 				? "text-white/60 hover:text-white"
-				: "text-gray-600 hover:text-gray-900"
+				: `${theme.textSecondary} hover:${theme.textPrimary}`
 		}`;
 
 	return <header
