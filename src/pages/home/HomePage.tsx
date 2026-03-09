@@ -27,6 +27,8 @@ function _HomePage() {
 	const theme = getTheme(isDarkTheme)
 	const captions = getLocalizedTexts(language)
 
+	const noTokens = totalTokens <= 0
+
 	if (loading) {
 		return (
 			<div className="flex items-center justify-center h-64">
@@ -65,16 +67,37 @@ function _HomePage() {
 				</div>
 			</div>
 
+			{/* No Tokens Warning */}
+			{noTokens && (
+				<div className="p-4 rounded-xl border border-red-500/30 bg-red-500/10">
+					<p className="text-sm text-red-400 font-medium">
+						{captions.homeNoTokens}
+					</p>
+
+					<p className={`text-xs mt-1 ${theme.textSecondary}`}>
+						{captions.homeTopUpRequired}
+					</p>
+
+					<button
+						className="cursor-pointer mt-3 text-sm font-medium underline text-blue-400 hover:opacity-80"
+					>
+						{captions.homeTopUpButton}
+					</button>
+				</div>
+			)}
+
 			{/* Upload Area */}
-			<div className="space-y-4">
+			<div className={`space-y-4 ${noTokens ? "opacity-50 pointer-events-none" : ""}`}>
 				<FileUpload
 					uploading={uploading}
+					disabled={noTokens}
 					onAttachFile={(selectedFile) => {
+						if (noTokens) return
 						setFile(selectedFile)
 					}}
 				/>
 
-				{file && (
+				{file && !noTokens && (
 					<button
 						className={`cursor-pointer w-full py-3 rounded-xl ${theme.primaryButtonBg} ${theme.buttonText} font-semibold transition disabled:opacity-50 hover:${theme.primaryButtonHoverBg}`}
 						onClick={handleUpload}

@@ -17,6 +17,7 @@ const localizedTexts = {
 			"Are you sure you want to logout from your account?",
 		logout: "Logout",
 		cancel: "Cancel",
+
 		homeTitle: "Check Your CV with AI",
 		homeSubtitle:
 			"Upload your resume and receive instant AI-powered feedback to improve your chances.",
@@ -34,6 +35,12 @@ const localizedTexts = {
 		homeCvReviewResult: "CV Review Result",
 		viewFile: "View File",
 		homeReviewedAt: "Reviewed at",
+
+		/* NEW */
+		homeNoTokens: "You have no AI credits left.",
+		homeTopUpRequired:
+			"Please top up your credits to upload and review a CV.",
+		homeTopUpButton: "Top Up Credits",
 
 		profileTitle: "Profile Page",
 		profileLoading: "Loading...",
@@ -94,6 +101,12 @@ const localizedTexts = {
 		viewFile: "Lihat Berkas",
 		homeReviewedAt: "Ditinjau pada",
 
+		/* NEW */
+		homeNoTokens: "Token AI kamu sudah habis.",
+		homeTopUpRequired:
+			"Silakan isi ulang token untuk dapat mengunggah dan meninjau CV.",
+		homeTopUpButton: "Isi Ulang Token",
+
 		profileTitle: "Halaman Profil",
 		profileLoading: "Memuat...",
 		profileName: "Nama:",
@@ -116,7 +129,6 @@ const localizedTexts = {
 		switchToBahasa: "Ganti ke Bahasa",
 	},
 };
-
 export function getLocalizedTexts(language: "en" | "id" | undefined) {
 	if (language == undefined) {
 		return localizedTexts["en"];

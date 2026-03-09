@@ -6,9 +6,15 @@ import { useGlobal } from "@/global-context/global"
 type FileUploadProps = {
 	onAttachFile?: (file: File) => void
 	uploading?: boolean
+	disabled?: boolean
 }
 
-export default function FileUpload({ onAttachFile, uploading }: FileUploadProps) {
+export default function FileUpload({
+	onAttachFile,
+	uploading,
+	disabled
+}: FileUploadProps) {
+
 	const { isDarkTheme, language } = useGlobal()
 	const theme = getTheme(isDarkTheme)
 	const captions = getLocalizedTexts(language)
@@ -20,6 +26,8 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 	const [error, setError] = useState<string | null>(null)
 
 	const handleFile = (selectedFile: File) => {
+		if (disabled) return
+
 		if (selectedFile.type !== "application/pdf") {
 			setError(captions.fileUploadOnlyPdf)
 			return
@@ -31,6 +39,8 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 	}
 
 	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+		if (disabled) return
+
 		e.preventDefault()
 		setIsDragging(false)
 
@@ -41,6 +51,8 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 	}
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (disabled) return
+
 		const selectedFile = e.target.files?.[0]
 		if (selectedFile) {
 			handleFile(selectedFile)
@@ -48,7 +60,7 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 	}
 
 	const removeFile = () => {
-		if (uploading) return
+		if (uploading || disabled) return
 
 		setFile(null)
 		setError(null)
@@ -64,15 +76,26 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 			{/* Upload Area */}
 			{!file ? (
 				<div
-					onClick={() => inputRef.current?.click()}
+					onClick={() => {
+						if (!disabled) {
+							inputRef.current?.click()
+						}
+					}}
 					onDragOver={(e) => {
+						if (disabled) return
 						e.preventDefault()
 						setIsDragging(true)
 					}}
-					onDragLeave={() => setIsDragging(false)}
+					onDragLeave={() => {
+						if (disabled) return
+						setIsDragging(false)
+					}}
 					onDrop={handleDrop}
-					className={`flex flex-col items-center justify-center text-center p-10 border-2 border-dashed rounded-2xl cursor-pointer transition
-					${isDragging
+					className={`flex flex-col items-center justify-center text-center p-10 border-2 border-dashed rounded-2xl transition
+					
+					${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+					
+					${isDragging && !disabled
 							? `${theme.dragBorder} ${theme.dragBg}`
 							: `${theme.cardBorder} ${theme.cardBg}`
 						}`}
@@ -115,8 +138,10 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 					<button
 						type="button"
 						onClick={removeFile}
-						disabled={uploading}
-						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80 ${uploading ? "cursor-not-allowed" : "cursor-pointer"
+						disabled={uploading || disabled}
+						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80 ${uploading || disabled
+								? "cursor-not-allowed"
+								: "cursor-pointer"
 							}`}
 					>
 						{captions.fileUploadRemove}
@@ -137,6 +162,7 @@ export default function FileUpload({ onAttachFile, uploading }: FileUploadProps)
 				accept="application/pdf"
 				className="hidden"
 				onChange={handleChange}
+				disabled={disabled}
 			/>
 
 		</div>
