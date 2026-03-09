@@ -28,7 +28,6 @@ export const uploadCv = async ({
 }: {
 	file: File
 }): Promise<{
-	cv_feedback: CVFeedback
 	remaining_tokens: number
 }> => {
 	const formData = new FormData()

@@ -8,6 +8,7 @@ import {
 	useState,
 	type ReactNode,
 } from "react"
+import { useNavigate } from "react-router-dom"
 
 export function useHomePageState() {
 	const [totalTokens, setTotalTokens] = useState<number>(0)
@@ -15,6 +16,7 @@ export function useHomePageState() {
 	const [file, setFile] = useState<File | null>(null)
 	const [cvFeedback, setCvFeedback] = useState<CVFeedback | null>(null)
 	const [uploading, setUploading] = useState<boolean>(false)
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchUserToken = async () => {
@@ -40,7 +42,7 @@ export function useHomePageState() {
 			const response = await uploadCv({ file })
 
 			setTotalTokens(response.remaining_tokens)
-			setCvFeedback(response.cv_feedback)
+			navigate("/uploaded-cv")
 			setFile(null)
 		} catch (error) {
 			console.error("Upload failed", error)
@@ -57,6 +59,7 @@ export function useHomePageState() {
 		cvFeedback,
 		uploading,
 		handleUpload,
+		setCvFeedback
 	}
 }
 

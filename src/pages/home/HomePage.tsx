@@ -75,7 +75,7 @@ function _HomePage() {
 
 				{file && (
 					<button
-						className={`w-full py-3 rounded-xl ${theme.primaryButtonBg} ${theme.buttonText} font-semibold transition disabled:opacity-50 hover:${theme.primaryButtonHoverBg}`}
+						className={`cursor-pointer w-full py-3 rounded-xl ${theme.primaryButtonBg} ${theme.buttonText} font-semibold transition disabled:opacity-50 hover:${theme.primaryButtonHoverBg}`}
 						onClick={handleUpload}
 						disabled={uploading}
 					>
