@@ -17,6 +17,9 @@ const localizedTexts = {
 			"Are you sure you want to logout from your account?",
 		logout: "Logout",
 		cancel: "Cancel",
+		homeTitle: "Check Your CV with AI",
+		homeSubtitle:
+			"Upload your resume and receive instant AI-powered feedback to improve your chances.",
 
 		fileUploadDrag: "Drag & drop your PDF here",
 		fileUploadBrowse: "or click to browse (PDF only)",
@@ -72,6 +75,10 @@ const localizedTexts = {
 			"Apakah kamu yakin ingin keluar dari akun ini?",
 		logout: "Keluar",
 		cancel: "Batal",
+
+		homeTitle: "Cek CV Kamu dengan AI",
+		homeSubtitle:
+			"Unggah CV kamu dan dapatkan feedback instan dari AI untuk meningkatkan peluang kariermu.",
 
 		fileUploadDrag: "Tarik & jatuhkan PDF kamu di sini",
 		fileUploadBrowse: "atau klik untuk mencari (hanya PDF)",

@@ -22,6 +22,7 @@ function _HomePage() {
 		uploading,
 		handleUpload,
 	} = useHomePage()
+
 	const { isDarkTheme, language } = useGlobal()
 	const theme = getTheme(isDarkTheme)
 	const captions = getLocalizedTexts(language)
@@ -35,59 +36,85 @@ function _HomePage() {
 	}
 
 	return (
-		<div className="max-w-xl mx-auto mt-10 space-y-6">
+		<div className="max-w-2xl mx-auto px-6 py-10 space-y-8">
 
-			{/* Token Info */}
-			<div className={`p-4 rounded-xl ${theme.cardBg}`}> 
-				<p className={`text-sm ${theme.subtextColor}`}>
-					{captions.homeAvailableTokens}
-				</p>
-				<p className={`text-2xl font-bold ${theme.textPrimary}`}>
-					{totalTokens}
+			{/* Page Title */}
+			<div className="space-y-1">
+				<h1 className={`text-2xl font-bold ${theme.headingColor}`}>
+					{captions.homeTitle}
+				</h1>
+				<p className={theme.subtextColor}>
+					{captions.homeSubtitle}
 				</p>
 			</div>
 
-			{/* File Upload */}
-			<FileUpload
-				onAttachFile={(selectedFile) => {
-					setFile(selectedFile)
-				}}
-			/>
+			{/* Token Card */}
+			<div className={`p-6 rounded-2xl border ${theme.cardBorder} ${theme.cardBg}`}>
+				<p className={`text-sm ${theme.subtextColor}`}>
+					{captions.homeAvailableTokens}
+				</p>
 
-			{/* Upload Button */}
-			{file && (
-				<button
-					className={`w-full py-3 rounded-xl ${theme.primaryButtonBg} ${theme.buttonText} font-semibold transition disabled:opacity-50 hover:${theme.primaryButtonHoverBg}`}
-					onClick={handleUpload}
-					disabled={uploading}
-				>
-					{uploading ? captions.homeProcessing : captions.homeUploadReview}
-				</button>
-			)}
+				<div className="flex items-end justify-between mt-2">
+					<p className={`text-3xl font-bold ${theme.textPrimary}`}>
+						{totalTokens}
+					</p>
 
-			{/* CV Feedback Result */}
+					<span className={`text-xs px-3 py-1 rounded-full ${theme.fileCardBg} ${theme.textSecondary}`}>
+						AI Credits
+					</span>
+				</div>
+			</div>
+
+			{/* Upload Area */}
+			<div className="space-y-4">
+				<FileUpload
+					onAttachFile={(selectedFile) => {
+						setFile(selectedFile)
+					}}
+				/>
+
+				{file && (
+					<button
+						className={`w-full py-3 rounded-xl ${theme.primaryButtonBg} ${theme.buttonText} font-semibold transition disabled:opacity-50 hover:${theme.primaryButtonHoverBg}`}
+						onClick={handleUpload}
+						disabled={uploading}
+					>
+						{uploading
+							? captions.homeProcessing
+							: captions.homeUploadReview}
+					</button>
+				)}
+			</div>
+
+			{/* Feedback Result */}
 			{cvFeedback && (
-				<div className={`p-6 rounded-xl border ${theme.cardBorder} ${theme.cardBg} shadow-sm space-y-4`}>
+				<div className={`p-6 rounded-2xl border ${theme.cardBorder} ${theme.cardBg} space-y-5`}>
+
 					<div className="flex justify-between items-center">
 						<h2 className={`text-lg font-semibold ${theme.textPrimary}`}>
 							{captions.homeCvReviewResult}
 						</h2>
+
 						<a
 							href={cvFeedback.file_link}
 							target="_blank"
-							className={`text-sm ${theme.link}`}
+							className={`text-sm font-medium ${theme.link}`}
 						>
 							{captions.viewFile}
 						</a>
 					</div>
 
-					<div className={`${theme.textSecondary} text-sm whitespace-pre-line`}>
+					<div className={`text-sm whitespace-pre-line leading-relaxed ${theme.textSecondary}`}>
 						{cvFeedback.feedback}
 					</div>
 
-					<p className={`${theme.textSecondary} text-xs`}>
-						{captions.homeReviewedAt} {new Date(cvFeedback.created_at).toLocaleString()}
-					</p>
+					<div className="pt-3 border-t border-black/10 dark:border-white/10">
+						<p className={`text-xs ${theme.textSecondary}`}>
+							{captions.homeReviewedAt}{" "}
+							{new Date(cvFeedback.created_at).toLocaleString()}
+						</p>
+					</div>
+
 				</div>
 			)}
 		</div>

@@ -13,6 +13,7 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 	const captions = getLocalizedTexts(language)
 
 	const inputRef = useRef<HTMLInputElement | null>(null)
+
 	const [file, setFile] = useState<File | null>(null)
 	const [isDragging, setIsDragging] = useState(false)
 	const [error, setError] = useState<string | null>(null)
@@ -48,13 +49,16 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 	const removeFile = () => {
 		setFile(null)
 		setError(null)
+
 		if (inputRef.current) {
 			inputRef.current.value = ""
 		}
 	}
 
 	return (
-		<div className="w-full max-w-md">
+		<div className="w-full">
+
+			{/* Upload Area */}
 			{!file ? (
 				<div
 					onClick={() => inputRef.current?.click()}
@@ -64,45 +68,62 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 					}}
 					onDragLeave={() => setIsDragging(false)}
 					onDrop={handleDrop}
-					className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-xl cursor-pointer transition
-            ${isDragging ? theme.dragBorder + " " + theme.dragBg : theme.cardBorder}
-          `}
+					className={`flex flex-col items-center justify-center text-center p-10 border-2 border-dashed rounded-2xl cursor-pointer transition
+					${isDragging
+							? `${theme.dragBorder} ${theme.dragBg}`
+							: `${theme.cardBorder} ${theme.cardBg}`
+						}`}
 				>
-					<p className={`${theme.textPrimary} font-medium`}>
+
+					<div className="text-3xl mb-3">📄</div>
+
+					<p className={`font-semibold ${theme.textPrimary}`}>
 						{captions.fileUploadDrag}
 					</p>
-					<p className={`${theme.textSecondary} text-sm mt-1`}>
+
+					<p className={`text-sm mt-1 ${theme.textSecondary}`}>
 						{captions.fileUploadBrowse}
 					</p>
+
+					<p className={`text-xs mt-3 ${theme.textSecondary}`}>
+						PDF only • Max 10MB
+					</p>
+
 				</div>
 			) : (
 				<div className={`flex items-center justify-between p-4 border rounded-xl ${theme.fileCardBg} ${theme.fileCardBorder}`}>
+
 					<div className="flex items-center gap-3">
-						<div className="p-2 bg-red-100 text-red-600 rounded-lg">
-							{captions.fileUploadLabel}
-						</div>
+
+						<div className="text-2xl">📄</div>
+
 						<div>
-							<p className={`${theme.fileNameText} text-sm font-medium`}>
+							<p className={`text-sm font-semibold ${theme.fileNameText}`}>
 								{file.name}
 							</p>
-							<p className={`${theme.fileSizeText} text-xs`}>
+
+							<p className={`text-xs ${theme.fileSizeText}`}>
 								{(file.size / 1024 / 1024).toFixed(2)} MB
 							</p>
 						</div>
+
 					</div>
 
 					<button
 						type="button"
 						onClick={removeFile}
-						className={`${theme.textSecondary} text-sm hover:opacity-80 font-medium`}
+						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80`}
 					>
 						{captions.fileUploadRemove}
 					</button>
+
 				</div>
 			)}
 
 			{error && (
-				<p className={`${theme.errorText} text-sm mt-2`}>{error}</p>
+				<p className={`${theme.errorText} text-sm mt-2`}>
+					{error}
+				</p>
 			)}
 
 			<input
@@ -112,6 +133,7 @@ export default function FileUpload({ onAttachFile }: FileUploadProps) {
 				className="hidden"
 				onChange={handleChange}
 			/>
+
 		</div>
 	)
 }
