@@ -4,4 +4,5 @@ export interface CVFeedback {
 	id: number
 	user: number
 	created_at: string
+	status: string
 }

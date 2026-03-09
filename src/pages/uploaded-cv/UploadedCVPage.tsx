@@ -17,71 +17,152 @@ function _UploadedCVPage() {
 		loading,
 		setPage,
 	} = useUploadedCVPage()
+
 	const { isDarkTheme, language } = useGlobal()
 	const theme = getTheme(isDarkTheme)
 	const captions = getLocalizedTexts(language)
 
 	return (
 		<div className={`w-full h-full p-6 ${theme.textPrimary}`}>
-			<h1 className="text-2xl font-bold mb-6">{captions.uploadedCvTitle}</h1>
 
-			{loading && <p>{captions.uploadedCvLoading}</p>}
+			{/* Title */}
+			<h1 className={`text-2xl font-bold mb-6 ${theme.headingColor}`}>
+				{captions.uploadedCvTitle}
+			</h1>
 
-			{!loading && data.length === 0 && (
-				<p>{captions.uploadedCvNoData}</p>
+			{loading && (
+				<p className={theme.subtextColor}>
+					{captions.uploadedCvLoading}
+				</p>
 			)}
 
+			{!loading && data.length === 0 && (
+				<p className={theme.subtextColor}>
+					{captions.uploadedCvNoData}
+				</p>
+			)}
+
+			{/* List */}
 			<div className="space-y-4">
-				{data.map((cv) => (
-					<div
-						key={cv.id}
-						className={`${theme.cardBg} p-4 border ${theme.cardBorder} rounded-lg shadow-sm`}
-					>
-						<p className={`${theme.subtextColor} text-sm`}>
-							{captions.uploadedCvUploadedAt} {new Date(cv.created_at).toLocaleString()}
-						</p>
+				{data.map((cv) => {
 
-						<a
-							href={cv.file_link}
-							target="_blank"
-							rel="noopener noreferrer"
-							className={`${theme.link} underline text-sm`}
+					const isFinished = cv.status === "finished"
+
+					return (
+						<div
+							key={cv.id}
+							className={`
+								${theme.cardBg}
+								${theme.cardBorder}
+								border
+								rounded-xl
+								p-5
+								shadow-sm
+								space-y-3
+							`}
 						>
-							{captions.viewFile}
-						</a>
 
-						<div className="mt-2">
-							<p className="text-sm font-semibold">{captions.uploadedCvFeedbackLabel}</p>
-							<p className="text-sm whitespace-pre-wrap">
-								{cv.feedback}
-							</p>
+							{/* Header */}
+							<div className="flex items-center justify-between">
+
+								<p className={`text-sm ${theme.subtextColor}`}>
+									{captions.uploadedCvUploadedAt}{" "}
+									{new Date(cv.created_at).toLocaleString()}
+								</p>
+
+								{/* Status */}
+								<span
+									className={`
+										text-xs px-2 py-1 rounded-full
+										${isFinished
+											? "bg-green-500/20 text-green-400"
+											: "bg-yellow-500/20 text-yellow-400"}
+									`}
+								>
+									{isFinished ? "Finished" : "Processing"}
+								</span>
+
+							</div>
+
+							{/* File link */}
+							<a
+								href={cv.file_link}
+								target="_blank"
+								rel="noopener noreferrer"
+								className={`${theme.link} text-sm underline`}
+							>
+								{captions.viewFile}
+							</a>
+
+							{/* Feedback */}
+							{isFinished ? (
+								<div className="space-y-1">
+									<p className="text-sm font-semibold">
+										{captions.uploadedCvFeedbackLabel}
+									</p>
+
+									<div
+										className={`
+											text-sm
+											whitespace-pre-wrap
+											${theme.subtextColor}
+											border
+											${theme.cardBorder}
+											rounded-lg
+											p-3
+										`}
+									>
+										{cv.feedback}
+									</div>
+								</div>
+							) : (
+								<div className={`text-sm ${theme.subtextColor}`}>
+									⏳ CV is still being analyzed...
+								</div>
+							)}
 						</div>
-					</div>
-				))}
+					)
+				})}
 			</div>
 
 			{/* Pagination */}
 			{totalPages > 1 && (
 				<div className="flex items-center gap-4 mt-6">
+
 					<button
 						disabled={page === 1}
 						onClick={() => setPage(page - 1)}
-						className="px-3 py-1 border rounded disabled:opacity-50"
+						className={`
+							px-3 py-1
+							border
+							rounded
+							${theme.cardBorder}
+							disabled:opacity-40
+						`}
 					>
 						{captions.paginationPrev}
 					</button>
 
-					<span>
-						{captions.paginationPageOf.replace("{{page}}", String(page)).replace("{{total}}", String(totalPages))}
+					<span className={theme.subtextColor}>
+						{captions.paginationPageOf
+							.replace("{{page}}", String(page))
+							.replace("{{total}}", String(totalPages))}
 					</span>
 
 					<button
 						disabled={page === totalPages}
 						onClick={() => setPage(page + 1)}
-						className="px-3 py-1 border rounded disabled:opacity-50"
+						className={`
+							px-3 py-1
+							border
+							rounded
+							${theme.cardBorder}
+							disabled:opacity-40
+						`}
 					>
 						{captions.paginationNext}
 					</button>
+
 				</div>
 			)}
 		</div>
