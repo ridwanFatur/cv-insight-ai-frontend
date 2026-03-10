@@ -23,6 +23,18 @@ export const getCvFeedback = async ({
 	return response.data;
 };
 
+export const getCvFeedbackDetail = async ({
+	id
+}: {
+	id: number
+}): Promise<{ download_url: string, cv_feedback: CVFeedback }> => {
+	const response = await axiosClient.get(
+		`${ENDPOINT.cvFeedback}/${id}`,
+	);
+
+	return response.data;
+};
+
 export const uploadCv = async ({
 	file,
 }: {

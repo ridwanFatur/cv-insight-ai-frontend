@@ -17,6 +17,7 @@ function _UploadedCVPage() {
 		totalPages,
 		loading,
 		setPage,
+		openFileLink,
 	} = useUploadedCVPage()
 
 	const { isDarkTheme, language } = useGlobal()
@@ -84,14 +85,14 @@ function _UploadedCVPage() {
 							</div>
 
 							{/* File link */}
-							<a
-								href={cv.file_link}
-								target="_blank"
-								rel="noopener noreferrer"
-								className={`${theme.link} text-sm underline`}
+							<button
+								onClick={() => {
+									openFileLink(cv.id)
+								}}
+								className={`${theme.link} text-sm underline cursor-pointer`}
 							>
 								{captions.viewFile}
-							</a>
+							</button>
 
 							{/* Feedback */}
 							{isFinished ? (

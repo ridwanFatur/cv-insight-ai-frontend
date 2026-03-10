@@ -3,16 +3,15 @@ import type { CVFeedback } from "@/models/CVFeedback"
 import { WS_URL } from "@/utils/api-constants"
 import { getCookie } from "@/utils/cookie-helper"
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import { useQueryClient } from "@tanstack/react-query"
 import { useCvFeedback } from "@/query/cv-feedback-query"
+import { getCvFeedbackDetail } from "@/api/cv-feedback-api"
+import { queryClient } from "@/utils/query-client"
 
 export function useUploadedCVPageState() {
 	const { user } = useGlobal()
 
 	const [page, setPage] = useState(1)
 	const [pageSize, setPageSize] = useState(10)
-
-	const queryClient = useQueryClient()
 
 	const { data: response, isLoading, refetch } = useCvFeedback(page, pageSize)
 
@@ -65,6 +64,20 @@ export function useUploadedCVPageState() {
 		}
 	}, [user?.id, page, pageSize, queryClient])
 
+	async function openFileLink(id: number) {
+		try {
+			const result = await queryClient.fetchQuery({
+				queryKey: ["cvFeedbackDetail", id],
+				queryFn: () => getCvFeedbackDetail({ id }),
+				staleTime: 5 * 60 * 1000,
+			})
+
+			window.open(result.download_url, "_blank")
+		} catch (e) {
+			console.error(e)
+		}
+	}
+
 	return {
 		data,
 		page,
@@ -76,6 +89,7 @@ export function useUploadedCVPageState() {
 		setPageSize,
 		refetch,
 		socket,
+		openFileLink
 	}
 }
 
