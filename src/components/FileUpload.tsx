@@ -33,6 +33,12 @@ export default function FileUpload({
 			return
 		}
 
+		const MAX_FILE_SIZE = 10 * 1024 * 1024
+		if (selectedFile.size > MAX_FILE_SIZE) {
+			setError(captions.fileUploadMaxSize)
+			return
+		}
+
 		setError(null)
 		setFile(selectedFile)
 		onAttachFile?.(selectedFile)
@@ -140,8 +146,8 @@ export default function FileUpload({
 						onClick={removeFile}
 						disabled={uploading || disabled}
 						className={`text-sm font-medium ${theme.textSecondary} hover:opacity-80 ${uploading || disabled
-								? "cursor-not-allowed"
-								: "cursor-pointer"
+							? "cursor-not-allowed"
+							: "cursor-pointer"
 							}`}
 					>
 						{captions.fileUploadRemove}

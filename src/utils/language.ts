@@ -36,7 +36,6 @@ const localizedTexts = {
 		viewFile: "View File",
 		homeReviewedAt: "Reviewed at",
 
-		/* NEW */
 		homeNoTokens: "You have no AI credits left.",
 		homeTopUpRequired:
 			"Please top up your credits to upload and review a CV.",
@@ -62,6 +61,7 @@ const localizedTexts = {
 		lightMode: "Light",
 		switchToEnglish: "Switch to English",
 		switchToBahasa: "Ganti ke Bahasa",
+		fileUploadMaxSize: "File size must be 10MB or less",
 	},
 
 	id: {
@@ -101,7 +101,6 @@ const localizedTexts = {
 		viewFile: "Lihat Berkas",
 		homeReviewedAt: "Ditinjau pada",
 
-		/* NEW */
 		homeNoTokens: "Token AI kamu sudah habis.",
 		homeTopUpRequired:
 			"Silakan isi ulang token untuk dapat mengunggah dan meninjau CV.",
@@ -127,6 +126,7 @@ const localizedTexts = {
 		lightMode: "Terang",
 		switchToEnglish: "Switch to English",
 		switchToBahasa: "Ganti ke Bahasa",
+		fileUploadMaxSize: "File maksimal 10MB",
 	},
 };
 export function getLocalizedTexts(language: "en" | "id" | undefined) {
