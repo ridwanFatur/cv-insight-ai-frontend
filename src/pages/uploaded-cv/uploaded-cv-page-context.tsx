@@ -3,22 +3,40 @@ import type { CVFeedback } from "@/models/CVFeedback"
 import { WS_URL } from "@/utils/api-constants"
 import { getCookie } from "@/utils/cookie-helper"
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import { useCvFeedback } from "@/query/cv-feedback-query"
-import { getCvFeedbackDetail } from "@/api/cv-feedback-api"
+import { getCvFeedback, getCvFeedbackDetail } from "@/api/cv-feedback-api"
 import { queryClient } from "@/utils/query-client"
 
 export function useUploadedCVPageState() {
 	const { user } = useGlobal()
-
+	const [data, setData] = useState<CVFeedback[]>([])
 	const [page, setPage] = useState(1)
 	const [pageSize, setPageSize] = useState(10)
-
-	const { data: response, isLoading, refetch } = useCvFeedback(page, pageSize)
-
-	const data: CVFeedback[] = response?.data ?? []
-	const total = response?.total ?? 0
+	const [total, setTotal] = useState(0)
+	const [loading, setLoading] = useState(false)
 
 	const totalPages = Math.ceil(total / pageSize)
+
+	const fetchData = async () => {
+		try {
+			setLoading(true)
+
+			const response = await getCvFeedback({
+				page,
+				page_size: pageSize,
+			})
+
+			setData(response.data ?? [])
+			setTotal(response.total ?? 0)
+		} catch (error) {
+			console.error("Failed fetch CV feedback", error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	useEffect(() => {
+		fetchData()
+	}, [page, pageSize])
 
 	const [socket, setSocket] = useState<WebSocket | null>(null)
 
@@ -30,27 +48,17 @@ export function useUploadedCVPageState() {
 		const ws = new WebSocket(wsUrl)
 
 		ws.onmessage = (event) => {
-			const payload = JSON.parse(event.data)
-
-			const id = payload.id
-			const status = payload.status
+			const payload = JSON.parse(event.data);
+			const id = payload.id;
+			const status = payload.status;
 			const feedback = payload.feedback
-
-			queryClient.setQueryData(
-				["cvFeedback", page, pageSize],
-				(old: any) => {
-					if (!old) return old
-
-					return {
-						...old,
-						data: old.data.map((item: CVFeedback) =>
-							item.id === id
-								? { ...item, status, feedback }
-								: item
-						),
-					}
-				}
-			)
+			setData((prevData) =>
+				prevData.map((item) =>
+					item.id === id
+						? { ...item, status, feedback }
+						: item
+				)
+			);
 		}
 
 		ws.onerror = (error) => {
@@ -62,7 +70,7 @@ export function useUploadedCVPageState() {
 		return () => {
 			ws.close()
 		}
-	}, [user?.id, page, pageSize, queryClient])
+	}, [user?.id, page, pageSize])
 
 	async function openFileLink(id: number) {
 		try {
@@ -84,10 +92,9 @@ export function useUploadedCVPageState() {
 		pageSize,
 		total,
 		totalPages,
-		loading: isLoading,
+		loading,
 		setPage,
 		setPageSize,
-		refetch,
 		socket,
 		openFileLink
 	}
