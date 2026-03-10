@@ -50,6 +50,17 @@ export function useUploadedCVPageState() {
 
 		ws.onmessage = (event) => {
 			console.log(event)
+			const payload = JSON.parse(event.data);
+			const id = payload.id;
+			const status = payload.status;
+			const feedback = payload.feedback
+			setData((prevData) =>
+				prevData.map((item) =>
+					item.id === id
+						? { ...item, status, feedback }
+						: item
+				)
+			);
 		}
 
 		ws.onclose = () => {
