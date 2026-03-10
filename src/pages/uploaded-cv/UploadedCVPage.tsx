@@ -2,6 +2,7 @@ import UploadedCVPageProvider, { useUploadedCVPage } from "./uploaded-cv-page-co
 import { getTheme } from "@/utils/theme"
 import { getLocalizedTexts } from "@/utils/language"
 import { useGlobal } from "@/global-context/global"
+import ReactMarkdown from "react-markdown"
 
 export default function UploadedCVPage() {
 	return <UploadedCVPageProvider>
@@ -110,7 +111,9 @@ function _UploadedCVPage() {
 											p-3
 										`}
 									>
-										{cv.feedback}
+										<ReactMarkdown>
+											{cv.feedback}
+										</ReactMarkdown>
 									</div>
 								</div>
 							) : (
