@@ -24,7 +24,6 @@ function _UploadedCVPage() {
 
 	return (
 		<div className={`w-full h-full p-6 ${theme.textPrimary}`}>
-
 			{/* Title */}
 			<h1 className={`text-2xl font-bold mb-6 ${theme.headingColor}`}>
 				{captions.uploadedCvTitle}
