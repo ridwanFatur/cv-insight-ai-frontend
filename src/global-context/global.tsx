@@ -1,11 +1,10 @@
 import { getUserApi } from "@/api/user-api";
 import type { User } from "@/models/User";
 import { getCookie, removeCookie } from "@/utils/cookie-helper";
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
 export function useGlobalState() {
 	const [isAppLoaded, setIsAppLoaded] = useState(false);
-	const hasCheckedAuth = useRef(false);
 	const [user, setUser] = useState<User>()
 	const [isDarkTheme, setIsDarkTheme] = useState(
 		() => localStorage.getItem("dark") === "true"
@@ -55,10 +54,7 @@ export function useGlobalState() {
 	}
 
 	useEffect(() => {
-		if (!hasCheckedAuth.current) {
-			checkAuth();
-			hasCheckedAuth.current = true;
-		}
+		checkAuth();
 	}, [])
 
 	function openLogoutDialog() {

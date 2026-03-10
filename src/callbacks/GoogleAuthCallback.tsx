@@ -2,13 +2,12 @@ import { loginApi } from "@/api/auth-api";
 import LoadingPage from "@/components/LoadingPage";
 import { useGlobal } from "@/global-context/global";
 import { removeCookie, setCookie } from "@/utils/cookie-helper";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function GoogleAuthCallback() {
 	const { setUser } = useGlobal()
 	const [searchParams] = useSearchParams();
-	const hasCheckedAuthCode = useRef(false);
 	const navigate = useNavigate()
 
 	async function googleLogin() {
@@ -31,10 +30,7 @@ export default function GoogleAuthCallback() {
 	}
 
 	useEffect(() => {
-		if (!hasCheckedAuthCode.current) {
-			googleLogin();
-			hasCheckedAuthCode.current = true;
-		}
+		googleLogin();
 	}, [searchParams]);
 
 	return <LoadingPage />
