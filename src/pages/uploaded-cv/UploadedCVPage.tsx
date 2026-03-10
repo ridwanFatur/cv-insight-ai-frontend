@@ -136,6 +136,7 @@ function _UploadedCVPage() {
 							rounded
 							${theme.cardBorder}
 							disabled:opacity-40
+							cursor-pointer
 						`}
 					>
 						{captions.paginationPrev}
@@ -156,6 +157,7 @@ function _UploadedCVPage() {
 							rounded
 							${theme.cardBorder}
 							disabled:opacity-40
+							cursor-pointer
 						`}
 					>
 						{captions.paginationNext}
