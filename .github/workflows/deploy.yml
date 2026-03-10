@@ -49,22 +49,43 @@ jobs:
           IMAGE_NAME=us-central1-docker.pkg.dev/ridwan-faturrahman/cvinsight-repo/cvinsight-app
           IMAGE_TAG=${GITHUB_SHA::7}
           docker push $IMAGE_NAME:latest
-          docker push $IMAGE_NAME:$IMAGE_TAG     
+          docker push $IMAGE_NAME:$IMAGE_TAG  
 
-      - name: Deploy to GCE VM
-        run: |   
-          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} << 'EOF'                                         
+      - name: VM Pull Docker Image
+        run: |          
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} << 'EOF'
             gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
             docker pull us-central1-docker.pkg.dev/ridwan-faturrahman/cvinsight-repo/cvinsight-app:latest
+          EOF
 
-            docker stop cvinsight-app || true
-            docker remove cvinsight-app || true   
+      - name: Set Env
+        run: |          
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} << 'EOF'
+            gcloud secrets versions access latest --secret="CVINSIGHT_AI_BACKEND_ENV" > env.backend.prod
+            gcloud secrets versions access latest --secret="CVINSIGHT_AI_DATABASE_ENV" > env.db.prod
+            gcloud secrets versions access latest --secret="CVINSIGHT_AI_RABBITMQ_ENV" > env.rabbitmq.prod
+            gcloud secrets versions access latest --secret="CVINSIGHT_AI_WORKER_ENV" > env.worker.prod
 
-            docker run -d \
-              --name cvinsight-app \
-              --restart always \
-              -p 5173:80 \
-              us-central1-docker.pkg.dev/ridwan-faturrahman/cvinsight-repo/cvinsight-app:latest   
+            set -a
+            source env.db.prod
+            set +a
+          EOF
+
+      - name: Docker Compose
+        run: |          
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} << 'EOF'
+            docker-compose stop cvinsight
+            docker-compose rm -f cvinsight
+            docker-compose up -d cvinsight
+          EOF
+
+      - name: Clean
+        run: |          
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} << 'EOF'
+            rm -f env.backend.prod
+            rm -f env.db.prod
+            rm -f env.rabbitmq.prod
+            rm -f env.worker.prod
 
             docker images -f "dangling=true" -q us-central1-docker.pkg.dev/ridwan-faturrahman/cvinsight-repo/cvinsight-app | xargs -r docker rmi
           EOF
